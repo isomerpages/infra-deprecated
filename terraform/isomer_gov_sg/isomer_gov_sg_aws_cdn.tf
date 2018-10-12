@@ -3,7 +3,7 @@
 
 # AWS S3 Bucket to store CloudFront logs
 resource "aws_s3_bucket" "isomer_cdn_logs_isomer_gov_sg" {
-  bucket = "isomer_isomer_gov_sg_logs"
+  bucket = "isomer-isomer-gov-sg-logs"
   acl    = "log-delivery-write"
 }
 
@@ -21,7 +21,7 @@ resource "aws_s3_bucket_policy" "isomer_iam_policy_cdn_logs_isomer_gov_sg" {
     "s3:GetObject",
     "s3:PutObject"
   ],
-  "Resource": "arn:aws:s3:::isomer_isomer_gov_sg_logs/*"
+  "Resource": "arn:aws:s3:::isomer-isomer-gov-sg-logs/*"
     }
   ]
 }
@@ -42,12 +42,12 @@ resource "aws_cloudfront_distribution" "isomer_cdn_isomer_gov_sg" {
   is_ipv6_enabled     = true
   default_root_object = "index.html"
 
-  aliases = ["www.hlb.gov.sg", "hlb.gov.sg"]
+  aliases = ["www.isomer.gov.sg", "isomer.gov.sg"]
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "isomer-hlb"
+    target_origin_id = "isomer-isomer-gov-sg"
 
     forwarded_values {
       query_string = true
@@ -71,11 +71,12 @@ resource "aws_cloudfront_distribution" "isomer_cdn_isomer_gov_sg" {
 
   viewer_certificate {
     cloudfront_default_certificate = true
-    acm_certificate_arn = "arn:aws:acm:us-east-1:095733531422:certificate/ad0aac23-cb6b-4efe-883c-0e28ff5d72f2"
+    ssl_support_method = "sni-only"
+    acm_certificate_arn = "arn:aws:acm:ap-southeast-1:095733531422:certificate/2d0fe1f2-b166-421f-ad64-f94b9e773412"
   }
 
   logging_config {
     include_cookies = false
-    bucket          = "${aws_s3_bucket.isomer_cdn_logs_isomer_gov_sg.id}"
+    bucket = "${aws_s3_bucket.isomer_cdn_logs_isomer_gov_sg.id}"
   }
 }

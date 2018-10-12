@@ -4,9 +4,9 @@
 # Bucket name convention:   isomer_[url_in_underscore]
 resource "google_storage_bucket" "isomer_bucket_isomer_gov_sg" {
   name     = "isomer_isomer_gov_sg"
-  project = "isomer"
+  project = "isomer-219002"
   location = "asia-southeast1"
-  storage_class = "MULTI_REGIONAL"
+  storage_class = "REGIONAL"
 
   website {
     main_page_suffix = "index.html"

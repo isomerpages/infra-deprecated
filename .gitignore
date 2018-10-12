@@ -1,4 +1,5 @@
 *.tfstate*
 *.terraform/
 credentials/
+run-dir/
 *.DS_Store
