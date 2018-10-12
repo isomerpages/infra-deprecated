@@ -79,7 +79,7 @@ resource "aws_cloudfront_distribution" "isomer_cdn_isomer_gov_sg" {
   viewer_certificate {
     cloudfront_default_certificate = true
     ssl_support_method = "sni-only"
-    acm_certificate_arn = "arn:aws:acm:ap-southeast-1:095733531422:certificate/2d0fe1f2-b166-421f-ad64-f94b9e773412"
+    acm_certificate_arn = "arn:aws:acm:us-east-1:095733531422:certificate/10979a60-e60e-405a-b1ef-7b31cc5b74e1"
   }
 
   logging_config {
