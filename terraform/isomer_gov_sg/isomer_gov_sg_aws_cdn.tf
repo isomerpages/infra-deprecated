@@ -35,7 +35,14 @@ resource "aws_cloudfront_distribution" "isomer_cdn_isomer_gov_sg" {
   origin {
     origin_id   = "isomer_github_pages_isomerpages-isomergovsg"
     domain_name = "isomerpages.github.io"
-    origin_path = "/isomerpages-isomergovsg"
+    origin_path = "/isomerpages-isomer"
+
+    custom_origin_config {
+      http_port = 80
+      https_port = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols = ["TLSv1", "TLSv1.1", "TLSv1.2"]
+    }
   }
 
   enabled             = true
@@ -47,7 +54,7 @@ resource "aws_cloudfront_distribution" "isomer_cdn_isomer_gov_sg" {
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "isomer-isomer-gov-sg"
+    target_origin_id = "isomer_github_pages_isomerpages-isomergovsg"
 
     forwarded_values {
       query_string = true
@@ -77,6 +84,6 @@ resource "aws_cloudfront_distribution" "isomer_cdn_isomer_gov_sg" {
 
   logging_config {
     include_cookies = false
-    bucket = "${aws_s3_bucket.isomer_cdn_logs_isomer_gov_sg.id}"
+    bucket = "${aws_s3_bucket.isomer_cdn_logs_isomer_gov_sg.id}.s3.amazonaws.com"
   }
 }
