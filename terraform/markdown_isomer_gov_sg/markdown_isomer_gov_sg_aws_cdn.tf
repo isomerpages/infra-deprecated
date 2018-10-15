@@ -1,41 +1,11 @@
-# Notes:
-# AWS CloudFront CDN for isomer.gov.sg
-
-# AWS S3 Bucket to store CloudFront logs
-resource "aws_s3_bucket" "isomer_cdn_logs_isomer_gov_sg" {
-  bucket = "isomer-isomer-gov-sg-logs"
-  acl    = "log-delivery-write"
-}
-
-resource "aws_s3_bucket_policy" "isomer_iam_policy_cdn_logs_isomer_gov_sg" {
-  bucket = "${aws_s3_bucket.isomer_cdn_logs_isomer_gov_sg.id}"
-  policy =<<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-  "Sid": "PublicReadGetObject",
-  "Effect": "Allow",
-  "Principal": "*",
-  "Action": [
-    "s3:GetObject",
-    "s3:PutObject"
-  ],
-  "Resource": "arn:aws:s3:::isomer-isomer-gov-sg-logs/*"
-    }
-  ]
-}
-POLICY
-}
-
 # Resource name convention: isomer_cdn_[url_in_underscore]
 # Origin ID convention:     isomer_github_pages_[repo name]
 # Logging Bucket:           isomer_[url_in_underscore]_logs
-resource "aws_cloudfront_distribution" "isomer_cdn_isomer_gov_sg" {
+resource "aws_cloudfront_distribution" "isomer_cdn_markdown_isomer_gov_sg" {
   origin {
-    origin_id   = "isomer_github_pages_isomerpages_isomergovsg"
+    origin_id   = "isomer_github_pages_isomerpages_markdown_isomergovsg"
     domain_name = "isomerpages.github.io"
-    origin_path = "/isomerpages-isomer"
+    origin_path = "/markdown-helper"
 
     custom_origin_config {
       http_port = 80
@@ -49,12 +19,12 @@ resource "aws_cloudfront_distribution" "isomer_cdn_isomer_gov_sg" {
   is_ipv6_enabled     = true
   default_root_object = "index.html"
 
-  aliases = ["www.isomer.gov.sg", "isomer.gov.sg"]
+  aliases = ["markdown.isomer.gov.sg"]
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "isomer_github_pages_isomerpages_isomergovsg"
+    target_origin_id = "isomer_github_pages_isomerpages_markdown_isomergovsg"
 
     forwarded_values {
       query_string = true
