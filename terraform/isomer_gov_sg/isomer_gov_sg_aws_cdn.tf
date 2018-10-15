@@ -35,7 +35,7 @@ resource "aws_cloudfront_distribution" "isomer_cdn_isomer_gov_sg" {
   origin {
     origin_id   = "isomer_github_pages_isomerpages_isomergovsg"
     domain_name = "isomerpages.github.io"
-    origin_path = "/isomerpages-isomer"
+    origin_path = "/isomerpages-isomergovsg"
 
     custom_origin_config {
       http_port = 80
