@@ -2,6 +2,7 @@
 # Google Cloud Storage Bucket for isomer.gov.sg
 # Resource name convention: isomer_bucket_[url_in_underscore]
 # Bucket name convention:   isomer_[url_in_underscore]
+
 resource "google_storage_bucket" "isomer_bucket_isomer_gov_sg" {
   name     = "isomer_isomer_gov_sg"
   project = "isomer-219002"
@@ -17,4 +18,13 @@ resource "google_storage_bucket" "isomer_bucket_isomer_gov_sg" {
     origin = ["www.isomer.gov.sg"]
     method = ["*"]
   }
+}
+
+resource "google_storage_bucket_iam_binding" "isomer_storage_bucket_iam_binding_isomer_gov_sg" {
+  bucket = "${google_storage_bucket.isomer_bucket_isomer_gov_sg.name}"
+  role        = "roles/storage.objectAdmin"
+
+  members = [
+    "serviceAccount:${google_service_account.isomer_service_account_isomer_gov_sg.email}",
+  ]
 }

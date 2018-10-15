@@ -6,34 +6,15 @@
 # Bucket name convention: isomer_bucket_[url_in_underscore]
 # Service account name convention: [url-in-hyphen]@@isomer-219002.iam.gserviceaccount.com
 
-
-# Allows the service account to have full access (read, write, delete, overwrite) to storage bucket objects
-data "google_iam_policy" "isomer_iam_policy_isomer_gov_sg" {
-  binding {
-    role = "roles/storage.objectAdmin"
-
-    members = [
-      "serviceAccount:isomer_gov_sg@isomer-219002.iam.gserviceaccount.com",
-    ]
-  }
-}
+# Retrieve service account credentials to perform actions
+# data "google_service_account" "isomer_service_account_isomer_gov_sg" {
+#  account_id = "preston-terraform"
+#  project = "isomer-219002"
+#}
 
 # Create service account
-data "google_service_account" "isomer_service_account_isomer_gov_sg" {
-  account_id = "preston-terraform"
+resource "google_service_account" "isomer_service_account_isomer_gov_sg" {
+  account_id   = "isomer-gov-sg"
+  display_name = "isomer-gov-sg"
   project = "isomer-219002"
-}
-
-resource "google_service_account_iam_policy" "isomer_service_account_iam_policy_isomer_gov_sg" {
-    service_account_id = "${data.google_service_account.isomer_service_account_isomer_gov_sg.id}"
-    policy_data = "${data.google_iam_policy.isomer_iam_policy_isomer_gov_sg.policy_data}"
-}
-
-# Limits access of bucket to the service account mentioned above
-resource "google_storage_bucket_acl" "isomer_bucket_acl_isomer_gov_sg" {
-  bucket = "${google_storage_bucket.isomer_bucket_isomer_gov_sg.name}"
-
-  role_entity = [
-    "OWNER:isomer-gov-sg@isomer-219002.iam.gserviceaccount.com",
-  ]
 }
