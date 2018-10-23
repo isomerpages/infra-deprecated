@@ -9,7 +9,8 @@ resource "aws_s3_bucket" "isomer_cdn_logs_isomer_gov_sg" {
 
 resource "aws_s3_bucket_policy" "isomer_iam_policy_cdn_logs_isomer_gov_sg" {
   bucket = "${aws_s3_bucket.isomer_cdn_logs_isomer_gov_sg.id}"
-  policy =<<POLICY
+
+  policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -38,10 +39,10 @@ resource "aws_cloudfront_distribution" "isomer_cdn_isomer_gov_sg" {
     origin_path = "/isomerpages-isomergovsg"
 
     custom_origin_config {
-      http_port = 80
-      https_port = 443
+      http_port              = 80
+      https_port             = 443
       origin_protocol_policy = "https-only"
-      origin_ssl_protocols = ["TLSv1", "TLSv1.1", "TLSv1.2"]
+      origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
     }
   }
 
@@ -78,12 +79,12 @@ resource "aws_cloudfront_distribution" "isomer_cdn_isomer_gov_sg" {
 
   viewer_certificate {
     cloudfront_default_certificate = true
-    ssl_support_method = "sni-only"
-    acm_certificate_arn = "arn:aws:acm:us-east-1:095733531422:certificate/10979a60-e60e-405a-b1ef-7b31cc5b74e1"
+    ssl_support_method             = "sni-only"
+    acm_certificate_arn            = "arn:aws:acm:us-east-1:095733531422:certificate/10979a60-e60e-405a-b1ef-7b31cc5b74e1"
   }
 
   logging_config {
     include_cookies = false
-    bucket = "${aws_s3_bucket.isomer_cdn_logs_isomer_gov_sg.id}.s3.amazonaws.com"
+    bucket          = "${aws_s3_bucket.isomer_cdn_logs_isomer_gov_sg.id}.s3.amazonaws.com"
   }
 }

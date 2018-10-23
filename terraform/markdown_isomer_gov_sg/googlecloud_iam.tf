@@ -10,5 +10,5 @@
 resource "google_service_account" "isomer_service_account_markdown_isomer_gov_sg" {
   account_id   = "markdown-isomer-gov-sg"
   display_name = "markdown-isomer-gov-sg"
-  project = "isomer-219002"
+  project      = "isomer-219002"
 }

@@ -4,9 +4,9 @@
 # Bucket name convention:   isomer_[url_in_underscore]
 
 resource "google_storage_bucket" "isomer_bucket_isomer_gov_sg" {
-  name     = "isomer_isomer_gov_sg"
-  project = "isomer-219002"
-  location = "asia-southeast1"
+  name          = "isomer_isomer_gov_sg"
+  project       = "isomer-219002"
+  location      = "asia-southeast1"
   storage_class = "REGIONAL"
 
   website {
@@ -23,7 +23,7 @@ resource "google_storage_bucket" "isomer_bucket_isomer_gov_sg" {
 # Grant storage object admin role to the service account
 resource "google_storage_bucket_iam_binding" "isomer_storage_bucket_iam_binding_isomer_gov_sg" {
   bucket = "${google_storage_bucket.isomer_bucket_isomer_gov_sg.name}"
-  role        = "roles/storage.objectAdmin"
+  role   = "roles/storage.objectAdmin"
 
   members = [
     "serviceAccount:${google_service_account.isomer_service_account_isomer_gov_sg.email}",
@@ -33,6 +33,6 @@ resource "google_storage_bucket_iam_binding" "isomer_storage_bucket_iam_binding_
 # Grant public read to everyone
 resource "google_storage_bucket_iam_member" "isomer_storage_bucket_iam_member_isomer_gov_sg" {
   bucket = "${google_storage_bucket.isomer_bucket_isomer_gov_sg.name}"
-  role        = "READER"
-  member      = "allUsers"
+  role   = "READER"
+  member = "allUsers"
 }
