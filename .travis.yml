@@ -17,7 +17,12 @@ jobs:
         - ./terraform fmt
         - ./terraform plan
     - stage: deploy # Applies the terraform changes
-      script: ./terraform apply -auto-approve
+      script: 
+        - . ./run-terraform.sh
+        - cd run-dir
+        - ./terraform init
+        - ./terraform fmt
+        - ./terraform apply -auto-approve
       # The auto-approve flag removes the need for a human to type 'yes' into the
       # command line when terraform apply is run
 before_install:
