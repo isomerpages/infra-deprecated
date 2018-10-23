@@ -8,6 +8,7 @@
 
 ```
 . run-terraform.sh
+cd run-dir
 terraform plan
 terraform apply
 ```
