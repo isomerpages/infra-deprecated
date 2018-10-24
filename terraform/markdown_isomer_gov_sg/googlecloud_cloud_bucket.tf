@@ -32,6 +32,6 @@ resource "google_storage_bucket_iam_binding" "isomer_storage_bucket_iam_binding_
 # Grant public read to everyone
 resource "google_storage_bucket_iam_member" "isomer_storage_bucket_iam_member_markdown_isomer_gov_sg" {
   bucket = "${google_storage_bucket.isomer_bucket_markdown_isomer_gov_sg.name}"
-  role   = "READER"
+  role   = "roles/storage.objectViewer"
   member = "allUsers"
 }

@@ -18,7 +18,7 @@ terraform fmt terraform
 3. Run terraform plan locally
 
 ```
-. run-terraform.sh
+. ./run-terraform.sh
 cd run-dir
 terraform plan
 ```
