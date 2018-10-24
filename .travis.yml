@@ -2,6 +2,17 @@ language: generic
 branches:
   only:
   - master
+before_install:
+  - mkdir credentials
+  - touch credentials/isomer-google-credentials.json
+  - openssl aes-256-cbc -K $encrypted_63f297c768a8_key -iv $encrypted_63f297c768a8_iv
+    -in isomer-google-credentials.json.enc -out credentials/isomer-google-credentials.json
+    -d
+before_script:
+  - . ./run-terraform.sh
+  - cd run-dir
+  - ./terraform init
+  - ./terraform fmt -check=true
 stages:
   - name: test
     if: type = pull_request
@@ -10,22 +21,8 @@ stages:
 jobs:
   include:
     - stage: test # Runs terraform plan to preview infra changes
-      script: 
-        - . ./run-terraform.sh
-        - cd run-dir
-        - ./terraform init
-        - ./terraform plan
+      script: ./terraform plan
     - stage: deploy # Applies the terraform changes
-      script: 
-        - . ./run-terraform.sh
-        - cd run-dir
-        - ./terraform init
-        - ./terraform apply -auto-approve
+      script: ./terraform apply -auto-approve
       # The auto-approve flag removes the need for a human to type 'yes' into the
       # command line when terraform apply is run
-before_install:
-- mkdir credentials
-- touch credentials/isomer-google-credentials.json
-- openssl aes-256-cbc -K $encrypted_63f297c768a8_key -iv $encrypted_63f297c768a8_iv
-  -in isomer-google-credentials.json.enc -out credentials/isomer-google-credentials.json
-  -d
