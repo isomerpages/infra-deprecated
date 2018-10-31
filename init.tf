@@ -6,3 +6,8 @@ terraform {
     dynamodb_table = "isomer-terraform-state-lock-dynamo"
   }
 }
+
+// configure the github provider
+provider "github" {
+  organization = "isomerpages"
+}
