@@ -20,6 +20,7 @@ terraform fmt terraform
 ```
 . ./run-terraform.sh
 cd run-dir
+terraform init
 terraform plan
 ```
 
